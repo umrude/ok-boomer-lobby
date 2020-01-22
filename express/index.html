@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet" />
+    <link href="https://unpkg.com/nes.css/css/nes.css" rel="stylesheet" />
+    <meta charset="UTF-8" />
+    <script src="//cdn.jsdelivr.net/npm/phaser@3.21.0/dist/phaser.js"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.slim.js"
+      integrity="sha256-BTlTdQO9/fascB1drekrDVkaKd9PkwBymMlHOiG+qLI="
+      crossorigin="anonymous"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css"
+      integrity="sha256-46qynGAkLSFpVbEBog43gvNhfrOj+BmwXdxFgVK/Kvc="
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.js"
+      integrity="sha256-GK45n4EYK8nekW6cd7GV3yDMWNby1VpisIWimfG/F4A="
+      crossorigin="anonymous"
+    ></script>
+
+    <title>Ok, Boomer</title>
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <link rel="icon" type="image/gif/png" href="assets/powerups/bombincrease.png" />
+  </head>
+
+  <body>
+    <div class="nes-container is-rounded nav is-dark">
+      <p>OK, BOOMER</p>
+      <button type="button" id="opener" class="nes-btn is-primary">
+        Restart
+      </button>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <div id="game"></div>
+
+    <div id="qrcode" class="nes-container is-dark with-title ">
+      <p class="title">Play</p>
+
+      <div class="cont">
+        <div id="code"></div>
+        <p id="scan">Scan the QR code to join!</p>
+        <div id="powerupLedg">
+          <p id="powerupTitle">Power Ups:</p>
+          <img src="./assets/powerups/bombincrease.png" class="powerups" />
+          <p id="powerupTitle"><i class="fas fa-arrow-up"></i> Bomb Count</p>
+
+          <img src="./assets/powerups/bombpowerincrease.png" class="powerups" />
+          <p id="powerupTitle"><i class="fas fa-arrow-up"></i> Bomb Power</p>
+
+          <img src="./assets/powerups/movementincrease.png" class="powerups" />
+          <p id="powerupTitle"><i class="fas fa-arrow-up"></i> Speed</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="players" class="nes-container is-dark with-title">
+      <p class="title">Players</p>
+      <div class="cont" id="allChars">
+        <div class="player nes-pointer">
+          <div class="char">
+            <img src="./assets/characters/white.png" alt="white" id="white" class="charImg" />
+          </div>
+          <div class="bombs bombCount">
+            <div><img class="bombImage" src="./assets/powerups/bombincrease.png" /></div>
+            <p id="whiteBombCount">: 1</p>
+          </div>
+        </div>
+        <div class="player nes-pointer">
+          <div class="char">
+            <img src="./assets/characters/blue.png" alt="blue" id="blue" class="charImg" />
+          </div>
+          <div class="bombs bombCount">
+            <div><img class="bombImage" src="./assets/powerups/bombincrease.png" /></div>
+            <p id="blueBombCount">: 1</p>
+          </div>
+        </div>
+        <div class="player nes-pointer">
+          <div class="char">
+            <img src="./assets/characters/black.png" alt="black" id="black" class="charImg" />
+          </div>
+          <div class="bombs bombCount">
+            <div><img class="bombImage" src="./assets/powerups/bombincrease.png" /></div>
+            <p id="blackBombCount">: 1</p>
+          </div>
+        </div>
+        <div class="player nes-pointer">
+          <div class="char">
+            <img src="./assets/characters/red.png" alt="red" id="red" class="charImg" />
+          </div>
+          <div class="bombs bombCount">
+            <div><img class="bombImage" src="./assets/powerups/bombincrease.png" /></div>
+            <p id="redBombCount">: 1</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+
+  <div class="countdown nes-container is-rounded is-dark hidden"></div>
+
+  <div class="startPage">
+    <button type="button" class="nes-btn is-success start">Start!</button>
+  </div>
+
+  <div class="winner nes-container is-rounded is-dark hidden"></div>
+
+  <div class="nes-dialog is-rounded hidden confirm">
+    <p class="title">CAUTION</p>
+    <p>Are you sure you want to restart?</p>
+    <button class="nes-btn" id="cancel">Cancel</button>
+    <button class="nes-btn is-primary" onClick="window.location.reload();">Confirm</button>
+  </div>
+
+  <script
+    src="https://code.jquery.com/jquery-3.4.1.slim.js"
+    integrity="sha256-BTlTdQO9/fascB1drekrDVkaKd9PkwBymMlHOiG+qLI="
+    crossorigin="anonymous"
+  ></script>
+  <script>
+    const typeNumber = 4;
+    const errorCorrectionLevel = "L";
+    let qr = qrcode(typeNumber, errorCorrectionLevel);
+    qr.addData("http://10.0.1.5:3000");
+    qr.make();
+    document.getElementById("code").innerHTML = qr.createImgTag();
+  </script>
+  <script src="js/game.js" type="text/javascript"></script>
+  <script src="js/startPage.js" type="text/javascript"></script>
+</html>
